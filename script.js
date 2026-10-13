@@ -15,7 +15,7 @@ async function analyzeNews() {
     try {
 
         const response = await fetch(
-            "http://localhost:8080/api/analyze",
+            "https://fake-news-dna-analyzer.onrender.com/api/analyze",
             {
                 method: "POST",
                 headers: {
