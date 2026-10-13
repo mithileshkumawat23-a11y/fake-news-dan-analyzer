@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Fake News DNA Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1>Fake News DNA Analyzer</h1>
+
+            <p class="login-subtitle">
+                Login to access your analysis dashboard
+            </p>
+
+            <form id="loginForm">
+
+                <label for="email">Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+            <p id="loginMessage"></p>
+            <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+
+        </div>
+
+    </div>
+
+  <script>
+
+    document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const email =
+                document.getElementById("email").value;
+
+            const password =
+                document.getElementById("password").value;
+
+            const loginMessage =
+                document.getElementById("loginMessage");
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8080/api/auth/login",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+                if (response.ok) {
+
+                    const user = await response.json();
+
+                    loginMessage.innerText =
+                        "Login successful! Welcome " + user.name;
+                        sessionStorage.setItem("loggedInUser", JSON.stringify({
+    id: user.id,
+    name: user.name,
+    email: user.email
+}));
+                        window.location.href = "index.html";
+
+                } else {
+
+                    loginMessage.innerText =
+                        "Invalid email or password.";
+
+                }
+
+            } catch (error) {
+
+                loginMessage.innerText =
+                    "Backend connection failed.";
+
+            }
+
+        });
+
+</script>  
+
+</body>
+
+</html>
