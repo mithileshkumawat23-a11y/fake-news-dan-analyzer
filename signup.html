@@ -49,8 +49,9 @@
                 message.innerText = "Account created! Please login.";
                 setTimeout(() => window.location.href = "login.html", 1000);
             } else {
-                message.innerText = "Signup failed. Please try again.";
-            }
+    const errorText = await response.text();
+    message.innerText = "Error " + response.status + ": " + errorText;
+}
         } catch (error) {
             message.innerText = "Backend connection failed.";
         }
